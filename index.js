@@ -1,3 +1,8 @@
+let request = {
+  value: '',
+  isResults: true,
+};
+
 async function fetchData(url) {
   try {
     const fetchedData = await fetch(url);
@@ -8,11 +13,11 @@ async function fetchData(url) {
       console.log(parsedData);
       if (!parsedData.meals) {
         console.log('no food');
+        request.isResults = false; //We change isResults
+
         throw new Error(`Try to find something else!`);
       }
-      console.log(
-        "if parsedData.meals doesn't exist we shouldn't see this message (and we don't see it, it's good.",
-      );
+
       await showResults(parsedData);
     } else {
       throw new Error(`Request to ${url} failed`);
@@ -24,11 +29,6 @@ async function fetchData(url) {
 
 async function showResults(data) {
   try {
-    console.log(
-      "We are in showResults. But we shouldn't be here if parsedData.meals doesn't exist (because we trow error) ",
-    );
-    console.log('data length:');
-    console.log(Object.keys(data).length);
     const showDiv = document.getElementById('dish-list');
     showDiv.textContent = '';
     const ul = document.createElement('ul');
@@ -56,21 +56,33 @@ function renderError(error) {
   const errorP = document.createElement('p');
   errorP.textContent = error;
   errorDiv.appendChild(errorP);
-  showResults({});
+  const showDiv = document.getElementById('dish-list');
+  showDiv.textContent = '';
 }
 
 function main() {
   const url = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
   const searchField = document.getElementById('searchField');
   let token = 0;
+
   searchField.onkeyup = () => {
     clearTimeout(token);
-    if (searchField.value.trim().length === 0) {
+    if (searchField.value.trim().length < 2) {
       return;
     }
+    // if user got no results (we don't have the meal with this name) and
+    //he is continuing to add some letters in the input field we stop this function
+    if (
+      searchField.value.trim().includes(request.value) &&
+      request.isResults === false
+    ) {
+      return;
+    }
+
     token = setTimeout(() => {
+      request.value = searchField.value; //we change request.value
       fetchData(url + searchField.value);
-    }, 250);
+    }, 500);
   };
 }
 
