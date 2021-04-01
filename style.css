@@ -1,0 +1,15 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+#dish {
+  background-color: azure;
+  width: 500px;
+  height: 300px;
+}
+#show-dish img {
+  width: 100%;
+}
+.hide {
+  display: none;
+}
