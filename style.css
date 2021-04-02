@@ -12,7 +12,7 @@ main {
   padding-bottom: 1em;
   text-align: center;
   background-color: #f5efda;
-  min-height: 80%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 h1,
@@ -21,6 +21,7 @@ h2 {
 }
 h3 {
   text-align: left;
+  padding-top: 1em;
 }
 #search-dish {
   margin: 1em;
@@ -45,7 +46,6 @@ h3 {
   margin: 1em 2em;
   line-height: 1.5em;
   padding-bottom: 2em;
-  border: springgreen solid 1px;
   text-align: center;
 }
 p {
@@ -54,10 +54,20 @@ p {
 .link {
   color: rgb(22, 22, 133);
   cursor: pointer;
+  padding: 0.3em 0 0.3em 0;
+}
+.link:hover {
+  background-color: rgb(255, 249, 249);
 }
 ul {
   text-align: center;
-  line-height: 1.7em;
-  border: rgb(73, 31, 97) solid 1px;
   list-style-type: none;
+}
+
+#error {
+  padding: 1em;
+}
+
+#listOfIngredients {
+  text-align: left;
 }

@@ -23,7 +23,7 @@ async function fetchData(url) {
       request.isResults = true; //We change isResults
       console.log('We changed request.isResult.  request:');
       console.log(request);
-      await showResults(parsedData);
+      showResults(parsedData);
     } else {
       throw new Error(`Request to ${url} failed`);
     }
@@ -32,31 +32,25 @@ async function fetchData(url) {
   }
 }
 
-async function showResults(data) {
-  try {
-    console.log('we are in showResults');
-    const errDiv = document.querySelector('#error');
-    errDiv.textContent = '';
-    const showDiv = document.getElementById('dish-list');
-    showDiv.textContent = '';
-    const ul = document.createElement('ul');
+function showResults(data) {
+  console.log('we are in showResults');
+  const errDiv = document.querySelector('#error');
+  errDiv.textContent = '';
+  const showDiv = document.getElementById('dish-list');
+  showDiv.textContent = '';
+  const ul = document.createElement('ul');
 
-    data.meals.forEach((element) => {
-      const li = document.createElement('li');
-      li.textContent = element.strMeal;
-      li.className = 'link';
-      li.onclick = () => {
-        showOneMeal(element);
-      };
-      ul.appendChild(li);
-    });
+  data.meals.forEach((element) => {
+    const li = document.createElement('li');
+    li.textContent = element.strMeal;
+    li.className = 'link';
+    li.onclick = () => {
+      showOneMeal(element);
+    };
+    ul.appendChild(li);
+  });
 
-    showDiv.appendChild(ul);
-    console.log('ul: ');
-    console.log(ul);
-  } catch (error) {
-    console.log('error in showMenu', error);
-  }
+  showDiv.appendChild(ul);
 }
 //strMeal strMealThumb strInstructions
 
@@ -79,7 +73,8 @@ function showOneMeal(meal) {
   const description = document.createElement('div');
   description.id = 'description';
   showDiv.appendChild(description);
-  console.log(description);
+
+  listOfIngredients(meal, description);
 
   const h3 = document.createElement('h3');
   h3.textContent = 'Instruction';
@@ -88,6 +83,33 @@ function showOneMeal(meal) {
   const p = document.createElement('p');
   p.textContent = meal.strInstructions;
   description.appendChild(p);
+}
+
+function listOfIngredients(meal, description) {
+  const listOfIngredients = document.createElement('ul');
+  listOfIngredients.id = 'listOfIngredients';
+
+  const mealArr = Object.entries(meal);
+  const ingredients = [];
+  const measure = [];
+
+  for (const [key, value] of mealArr) {
+    if (value && key.includes('strIngredient') && value.trim().length > 0) {
+      ingredients.push(value);
+    }
+  }
+  for (const [key, value] of mealArr) {
+    if (value && key.includes('strMeasure') && value.trim().length > 0) {
+      measure.push(value);
+    }
+  }
+  for (let i = 0; i < ingredients.length; i++) {
+    const li = document.createElement('li');
+    li.textContent = `${ingredients[i]}: ${measure[i]}`;
+
+    listOfIngredients.appendChild(li);
+  }
+  description.appendChild(listOfIngredients);
 }
 
 function renderError(error) {
