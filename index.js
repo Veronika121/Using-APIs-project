@@ -52,7 +52,6 @@ function showResults(data) {
 
   showDiv.appendChild(ul);
 }
-//strMeal strMealThumb strInstructions
 
 function showOneMeal(meal) {
   console.log('we are in showOneMeal');
