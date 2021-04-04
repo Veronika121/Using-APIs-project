@@ -14,10 +14,10 @@ async function fetchData(url) {
   if (fetchedData.ok) {
     const parsedData = await fetchedData.json();
     if (!parsedData.meals) {
-      request.isResults = false; //We change isResults
+      request.isResults = false;
       throw new Error(`Try to find something else!`);
     }
-    request.isResults = true; //We change isResults
+    request.isResults = true;
     return parsedData;
   } else {
     throw new Error(`Request to ${url} failed`);
@@ -108,7 +108,6 @@ async function main() {
     if (searchField.value.trim().length < 2) {
       return;
     }
-
     if (
       searchField.value.trim().includes(request.value) &&
       request.isResults === false
@@ -120,9 +119,7 @@ async function main() {
       request.value = searchField.value;
       try {
         const parsedData = await fetchData(url + searchField.value);
-        if (parsedData) {
-          showResults(parsedData.meals);
-        }
+        showResults(parsedData.meals);
       } catch (error) {
         renderError(error);
       }
