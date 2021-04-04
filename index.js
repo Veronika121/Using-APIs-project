@@ -10,37 +10,32 @@ function createAndAppend(name, parent) {
 }
 
 async function fetchData(url) {
-  try {
-    const fetchedData = await fetch(url);
-
-    if (fetchedData.ok) {
-      const parsedData = await fetchedData.json();
-      if (!parsedData.meals) {
-        request.isResults = false; //We change isResults
-        throw new Error(`Try to find something else!`);
-      }
-      request.isResults = true; //We change isResults
-      return parsedData;
-    } else {
-      throw new Error(`Request to ${url} failed`);
+  const fetchedData = await fetch(url);
+  if (fetchedData.ok) {
+    const parsedData = await fetchedData.json();
+    if (!parsedData.meals) {
+      request.isResults = false; //We change isResults
+      throw new Error(`Try to find something else!`);
     }
-  } catch (err) {
-    renderError(err);
+    request.isResults = true; //We change isResults
+    return parsedData;
+  } else {
+    throw new Error(`Request to ${url} failed`);
   }
 }
 
-function showResults(data) {
+function showResults(meals) {
   const errDiv = document.querySelector('#error');
   errDiv.textContent = '';
   const showDiv = document.getElementById('dish-list');
   showDiv.textContent = '';
   const ul = createAndAppend('ul', showDiv);
-  data.meals.forEach((element) => {
+  meals.forEach((meal) => {
     const li = createAndAppend('li', ul);
-    li.textContent = element.strMeal;
+    li.textContent = meal.strMeal;
     li.className = 'link';
     li.addEventListener('click', () => {
-      showOneMeal(element);
+      showOneMeal(meal);
     });
   });
 }
@@ -126,7 +121,7 @@ async function main() {
       try {
         const parsedData = await fetchData(url + searchField.value);
         if (parsedData) {
-          showResults(parsedData);
+          showResults(parsedData.meals);
         }
       } catch (error) {
         renderError(error);
