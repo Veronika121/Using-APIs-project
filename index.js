@@ -1,6 +1,7 @@
 let request = {
   value: '',
   isResults: true,
+  listOfMeals: [],
 };
 
 function createAndAppend(name, parent) {
@@ -45,6 +46,15 @@ function showOneMeal(meal) {
   showDiv.textContent = '';
   const searchField = document.getElementById('searchField');
   searchField.value = '';
+
+  const backToResults = createAndAppend('div', showDiv);
+  const span = createAndAppend('span', backToResults);
+  backToResults.id = 'back';
+  span.textContent = 'Back to the search results';
+  span.className = 'link';
+  backToResults.addEventListener('click', () => {
+    showResults(request.listOfMeals);
+  });
 
   const h2 = createAndAppend('h2', showDiv);
   h2.textContent = meal.strMeal;
@@ -119,6 +129,7 @@ async function main() {
       request.value = searchField.value;
       try {
         const parsedData = await fetchData(url + searchField.value);
+        request.listOfMeals = parsedData.meals;
         showResults(parsedData.meals);
       } catch (error) {
         renderError(error);

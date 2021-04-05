@@ -24,7 +24,7 @@ h3 {
   padding-top: 1em;
 }
 #search-dish {
-  margin: 1em;
+  margin: 0.1em;
 }
 #search-dish input {
   margin-top: 1em;
@@ -54,14 +54,32 @@ p {
 .link {
   color: rgb(22, 22, 133);
   cursor: pointer;
-  padding: 0.3em 0 0.3em 0;
+  padding: 0.3em 0;
 }
 .link:hover {
   background-color: rgb(255, 249, 249);
 }
+#back {
+  font-size: 1.2em;
+  text-align: center;
+  margin-top: 0.4em;
+}
+#back span {
+  padding: 0.3em 1em;
+}
+#back span:before {
+  content: '';
+  display: inline-block;
+  background: url('arrow-back.png') no-repeat;
+  background-size: 12px;
+  width: 16px;
+  height: 16px;
+  margin: 0 6px -1px 0;
+}
 ul {
   text-align: center;
   list-style-type: none;
+  margin-top: 1em;
 }
 
 #error {
