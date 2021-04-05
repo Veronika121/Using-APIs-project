@@ -6,7 +6,7 @@
 
 **Nice to have:**
 <br>• the user can see also the list of ingredients and quantities of ingredients of the choose meal.
-<br>• the user can go back to the search results list and select another meal from that list
+<br>• the user can go back to the search results list and select another meal from that list.
 <br>• the user can see area and category of the choose meal.
 <br>• the user can input a name of some ingredient and get a list of meals which include this ingredient.
 <br>• the user can find a random meal.
